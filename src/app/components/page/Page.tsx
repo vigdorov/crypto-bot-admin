@@ -1,41 +1,56 @@
-import React, {Fragment, memo} from 'react';
+import React, {memo} from 'react';
 import {Route, Switch} from 'react-router-dom';
-import {Container, createStyles, makeStyles} from '@material-ui/core';
 import {createStore} from '@reatom/core';
 import {context} from '@reatom/react';
 import mainPageRouter from '_pages/main/routing';
+import usersPageRouter from '_pages/users/routing';
+import actionsPageRouter from '_pages/actions/routing';
+import conditionsPageRouter from '_pages/conditions/routing';
+import graphsPageRouter from '_pages/graphs/routing';
+import currenciesPageRouter from '_pages/currencies/routing';
 import NotFoundPage from '_pages/not-found/components/page';
-import './Page.scss';
+import MainLayout from '../main-layout';
+import jss from 'jss';
+import preset from 'jss-preset-default';
 
-const useStyles = makeStyles(() =>
-    createStyles({
-        container: {
-            height: '100hv',
-            display: 'flex',
-            flexDirection: 'column',
+jss.setup(preset());
+
+const styles = {
+    '@global': {
+        html: {
+            height: '100%',
         },
-    }),
-);
+        body: {
+            height: '100%',
+            margin: '0',
+        },
+        '#root': {
+            height: '100%',
+        },
+    }
+};
+
+jss.createStyleSheet(styles).attach();
 
 const Page: React.FC = () => {
-    const classes = useStyles();
     const store = createStore();
 
     return (
-        <Fragment>
-            <div className={classes.container}>
-                <context.Provider value={store}>
-                    <Container>
-                        <Switch>
-                            {mainPageRouter}
-                            <Route>
-                                <NotFoundPage />
-                            </Route>
-                        </Switch>
-                    </Container>
-                </context.Provider>
-            </div>
-        </Fragment>
+        <context.Provider value={store}>
+            <MainLayout>
+                <Switch>
+                    {mainPageRouter}
+                    {usersPageRouter}
+                    {actionsPageRouter}
+                    {conditionsPageRouter}
+                    {graphsPageRouter}
+                    {currenciesPageRouter}
+                    <Route>
+                        <NotFoundPage />
+                    </Route>
+                </Switch>
+            </MainLayout>
+        </context.Provider>
     );
 };
 
