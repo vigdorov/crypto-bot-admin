@@ -1,0 +1,14 @@
+image: alpine:latest
+
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  script:
+    - cd ~/crypto-bot-dev/front-admin
+    - git fetch && git pull
+    - npm i
+    - npm run build
+  only:
+    - master
