@@ -1,6 +1,5 @@
 import React, {memo} from 'react';
 import {Route, Switch} from 'react-router-dom';
-import {createStore} from '@reatom/core';
 import {context} from '@reatom/react';
 import mainPageRouter from '_pages/main/routing';
 import usersPageRouter from '_pages/users/routing';
@@ -12,6 +11,8 @@ import NotFoundPage from '_pages/not-found/components/page';
 import MainLayout from '../main-layout';
 import jss from 'jss';
 import preset from 'jss-preset-default';
+import {store} from '../../../core/infrastructure/atom/store';
+import ConnectedRouter from '../../../core/blocks/connected-router/ConnectedRouter';
 
 jss.setup(preset());
 
@@ -33,23 +34,23 @@ const styles = {
 jss.createStyleSheet(styles).attach();
 
 const Page: React.FC = () => {
-    const store = createStore();
-
     return (
         <context.Provider value={store}>
-            <MainLayout>
-                <Switch>
-                    {mainPageRouter}
-                    {usersPageRouter}
-                    {actionsPageRouter}
-                    {conditionsPageRouter}
-                    {graphsPageRouter}
-                    {currenciesPageRouter}
-                    <Route>
-                        <NotFoundPage />
-                    </Route>
-                </Switch>
-            </MainLayout>
+            <ConnectedRouter>
+                <MainLayout>
+                    <Switch>
+                        {mainPageRouter}
+                        {usersPageRouter}
+                        {actionsPageRouter}
+                        {conditionsPageRouter}
+                        {graphsPageRouter}
+                        {currenciesPageRouter}
+                        <Route>
+                            <NotFoundPage />
+                        </Route>
+                    </Switch>
+                </MainLayout>
+            </ConnectedRouter>
         </context.Provider>
     );
 };

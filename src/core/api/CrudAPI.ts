@@ -21,6 +21,7 @@ type RequestEntities<T> = {
 type EntityWithId<T> = T & {
     id: string;
 };
+type EntityWithoutId<T> = Omit<T, 'id'>;
 
 type ResponseEntities<T> = {
         data: EntityWithId<T>[];
@@ -63,8 +64,8 @@ export class CrudAPI<T> {
         return http.get<never, T>(`${this.endpoint}/${id}`);
     }
 
-    create = (entity: T): Promise<EntityWithId<T>> => {
-        return http.post<never, T, EntityWithId<T>>(this.endpoint, undefined, entity);
+    create = (entity: EntityWithoutId<T>): Promise<EntityWithId<T>> => {
+        return http.post<never, EntityWithoutId<T>, EntityWithId<T>>(this.endpoint, undefined, entity);
     }
 
     update = (id: string, entity: T): Promise<EntityWithId<T>> => {

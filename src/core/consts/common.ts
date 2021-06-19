@@ -8,5 +8,9 @@ export const ROUTES = {
 };
 
 export const ENDPOINT = {
-    USERS: 'http://vigdorov.ru:3011/users',
+    USERS: 'https://localhost:3189/api/users',
+    ACTIONS: 'https://localhost:3189/api/bot/actions',
+    CONDITIONS: 'https://localhost:3189/api/bot/conditions',
+    GRAPHS: 'https://localhost:3189/api/bot/graphs',
+    CURRENCIES: 'https://localhost:3189/api/bot/currencies',
 };
