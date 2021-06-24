@@ -1,5 +1,6 @@
 import {useAtom} from '@reatom/react';
-import {Table} from 'antd';
+import {Button, Table} from 'antd';
+import {ColumnsType} from 'antd/lib/table';
 import {head} from 'lodash';
 import React, {FC, memo, useEffect, useMemo} from 'react';
 import {ROUTES} from '../../../../core/consts/common';
@@ -7,6 +8,7 @@ import {usersAtom} from '../../../../core/infrastructure/atom/usersAtom';
 import {routerService} from '../../../../core/services/RouterService';
 import {EntityMode} from '../../../../core/types/EntityModes';
 import {objectKeys} from '../../../../core/utils/objectKeys';
+import {ModalType} from '../../enums';
 import {usersService} from '../../services/UsersServices';
 import {User} from '../../types';
 
@@ -19,6 +21,14 @@ const onRow = (user: User) => ({
     },
 });
 
+const onClick = (id: string) => (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    routerService.pushWithQuery(ROUTES.USERS, {
+        id,
+        modalType: ModalType.ChangePassword,
+    });
+};
+
 const UsersTable: FC = () => {
     const users = useAtom(usersAtom);
 
@@ -26,8 +36,18 @@ const UsersTable: FC = () => {
         usersService.loadUsers();
     }, []);
 
-    const columns = useMemo(() => {
-        return objectKeys(head(users) ?? {}).map(field => {
+    const columns: ColumnsType<User> = useMemo(() => {
+        const user = head(users) ?? {} as User;
+        return objectKeys(user).map(field => {
+            if (field === 'password') {
+                return {
+                    title: field,
+                    key: field,
+                    render: () => (
+                        <Button onClick={onClick(user.id)}>Change password</Button>
+                    ),
+                };
+            }
             return {
                 title: field,
                 dataIndex: field,

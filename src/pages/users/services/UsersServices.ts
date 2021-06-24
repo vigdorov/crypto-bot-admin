@@ -1,7 +1,7 @@
+import {EntityWithoutId} from '../../../core/api/CrudAPI';
 import {ROUTES} from '../../../core/consts/common';
-import {bindedActions, FieldData, INIT_USER} from '../../../core/infrastructure/atom/usersAtom';
+import {bindedActions, INIT_USER} from '../../../core/infrastructure/atom/usersAtom';
 import {routerService} from '../../../core/services/RouterService';
-import {objectEntries} from '../../../core/utils/objectEntries';
 import {usersAPI} from '../api/UsersAPI';
 import {User} from '../types';
 
@@ -19,20 +19,40 @@ class UsersService {
             usersAPI
                 .find(id)
                 .then(user => {
-                    const fieldData = objectEntries(user).reduce<FieldData[]>((acc, [name, value]) => {
-                        acc.push({name, value});
-                        return acc;
-                    }, []);
-                    bindedActions.loadUserForm(fieldData);
+                    bindedActions.loadUserForm({
+                        ...user,
+                        password: '',
+                    });
                 });
         }
         bindedActions.loadUserForm(INIT_USER);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    createUser({id, ...user}: User) {
+    createUser(user: EntityWithoutId<User>) {
         usersAPI
             .create(user)
+            .then(() => {
+                this.loadUsers().then(() => {
+                    routerService.push(ROUTES.USERS);
+                });
+            });
+    }
+
+    changePassword(id?: string, password?: string) {
+        if (id && password) {
+            usersAPI
+                .changePassword(id, password)
+                .then(() => {
+                    this.loadUsers().then(() => {
+                        routerService.push(ROUTES.USERS);
+                    });
+                });
+        }
+    }
+
+    updateUser({id, ...user}: User) {
+        usersAPI
+            .update(id, user)
             .then(() => {
                 this.loadUsers().then(() => {
                     routerService.push(ROUTES.USERS);

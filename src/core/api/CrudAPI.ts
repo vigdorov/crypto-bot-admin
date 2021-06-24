@@ -18,10 +18,10 @@ type RequestEntities<T> = {
     offset?: number;
 };
 
-type EntityWithId<T> = T & {
+export type EntityWithId<T> = T & {
     id: string;
 };
-type EntityWithoutId<T> = Omit<T, 'id'>;
+export type EntityWithoutId<T> = Omit<T, 'id'>;
 
 type ResponseEntities<T> = {
         data: EntityWithId<T>[];
@@ -68,8 +68,8 @@ export class CrudAPI<T> {
         return http.post<never, EntityWithoutId<T>, EntityWithId<T>>(this.endpoint, undefined, entity);
     }
 
-    update = (id: string, entity: T): Promise<EntityWithId<T>> => {
-        return http.patch<never, T, EntityWithId<T>>(`${this.endpoint}/${id}`, undefined, entity);
+    update = (id: string, entity: EntityWithoutId<T>): Promise<EntityWithId<T>> => {
+        return http.patch<never, EntityWithoutId<T>, EntityWithId<T>>(`${this.endpoint}/${id}`, undefined, entity);
     }
 
     replace = (id: string, entity: T): Promise<EntityWithId<T>> => {

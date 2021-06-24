@@ -8,6 +8,7 @@ export const ROUTES = {
 };
 
 export const ENDPOINT = {
+    AUTH: 'https://localhost:3189/api/auth',
     USERS: 'https://localhost:3189/api/users',
     ACTIONS: 'https://localhost:3189/api/bot/actions',
     CONDITIONS: 'https://localhost:3189/api/bot/conditions',

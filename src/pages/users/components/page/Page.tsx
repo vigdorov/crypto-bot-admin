@@ -1,9 +1,10 @@
 import {Button, Layout} from 'antd';
-import React, {FC, memo} from 'react';
+import React, {FC, Fragment, memo} from 'react';
 import {createUseStyles} from 'react-jss';
 import {ROUTES} from '../../../../core/consts/common';
 import {routerService} from '../../../../core/services/RouterService';
 import {EntityMode} from '../../../../core/types/EntityModes';
+import ChangePasswordModal from '../change-password-modal/ChangePasswordModal';
 import UserSidebar from '../user-sidebar/UserSidebar';
 import UsersTable from '../users-table/UsersTable';
 
@@ -22,20 +23,23 @@ const handleClickNewUser = () => {
 const Page: FC = () => {
     const classes = useStyles();
     return (
-        <Layout>
-            <Layout.Header className={classes.header}>
-                <Button
-                    type="primary"
-                    onClick={handleClickNewUser}
-                >
-                    New user
-                </Button>
-            </Layout.Header>
-            <Layout.Content>
-                <UsersTable />
-                <UserSidebar />
-            </Layout.Content>
-        </Layout>
+        <Fragment>
+            <Layout>
+                <Layout.Header className={classes.header}>
+                    <Button
+                        type="primary"
+                        onClick={handleClickNewUser}
+                    >
+                        New user
+                    </Button>
+                </Layout.Header>
+                <Layout.Content>
+                    <UsersTable />
+                    <UserSidebar />
+                </Layout.Content>
+            </Layout>
+            <ChangePasswordModal />
+        </Fragment>
     );
 };
 

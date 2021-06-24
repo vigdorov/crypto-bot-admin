@@ -1,59 +1,59 @@
 import {useAtom} from '@reatom/react';
-import {Button, Drawer, Form, Input} from 'antd';
-import React, {FC, Fragment, memo, useCallback, useEffect, useMemo} from 'react';
+import {Button, Drawer, Input} from 'antd';
+import React, {FC, Fragment, memo, SyntheticEvent, useCallback, useEffect, useMemo} from 'react';
 import {createUseStyles} from 'react-jss';
 import {ROUTES} from '../../../../core/consts/common';
 import {useQuery} from '../../../../core/hooks/useQuery';
-import {bindedActions, FieldData, userFormAtom} from '../../../../core/infrastructure/atom/usersAtom';
-import {isNotEmpty} from '../../../../core/referers/common';
+import {bindedActions, userFormAtom} from '../../../../core/infrastructure/atom/usersAtom';
 import {routerService} from '../../../../core/services/RouterService';
 import {EntityMode} from '../../../../core/types/EntityModes';
 import {usersService} from '../../services/UsersServices';
-import {User} from '../../types';
 import {queryParsers} from '../../utils';
 
 const AVAILABLE_CLOSE_MODES = [EntityMode.Show];
 const DISABLED_FORM_MODES = [EntityMode.Show];
-const SHOW_ID_MODES = [EntityMode.Show];
+const SHOW_PASSWORD_MODES = [EntityMode.Create, EntityMode.Copy];
 
 const useStyles = createUseStyles({
     button: {
         marginRight: '8px',
-    }
+    },
+    input: {
+        marginBottom: '16px',
+    },
 });
 
 const handleClose = () => {
     routerService.push(ROUTES.USERS);
 };
 
-const onFieldsChange = (_: FieldData[], allFields: FieldData[]) => {
-    bindedActions.loadUserForm(allFields);
-};
-
 const UserSidebar: FC = () => {
     const {mode, id} = useQuery(queryParsers);
-    const fields = useAtom(userFormAtom);
+    const form = useAtom(userFormAtom);
     const classes = useStyles();
 
     useEffect(() => {
         usersService.loadUser(id);
     }, [id, mode]);
 
+    const onChange = (event: SyntheticEvent<HTMLInputElement>) => {
+        const {name, value} = event.currentTarget;
+        bindedActions.loadUserForm({
+            ...form,
+            [name]: value,
+        });
+    };
+
     const disabled = useMemo(() => !mode || DISABLED_FORM_MODES.includes(mode), [mode]);
 
-    const handleCreate = useCallback(() => {
-        const user = fields.reduce<User>((acc, {name, value}) => {
-            if (Array.isArray(name)) {
-                if (isNotEmpty(name[0])) {
-                    acc[name[0]] = value;
-                }
-            } else {
-                acc[name] = value;
-            }
-            return acc;
-        }, {id: '', login: '', password: ''});
-        usersService.createUser(user);
-    }, [fields]);
+    const handleCreateUser = useCallback(() => {
+        const {login, password} = form;
+        usersService.createUser({login, password});
+    }, [form]);
+
+    const handleSaveUser = useCallback(() => {
+        usersService.updateUser(form);
+    }, [form]);
 
     const handleCopy = useCallback(() => {
         if (id) {
@@ -105,7 +105,7 @@ const UserSidebar: FC = () => {
                 return (
                     <Button
                         className={classes.button}
-                        onClick={handleCreate}
+                        onClick={handleCreateUser}
                         type="primary"
                     >
                         Create
@@ -115,6 +115,7 @@ const UserSidebar: FC = () => {
                 return (
                     <Button
                         className={classes.button}
+                        onClick={handleSaveUser}
                         type="primary"
                     >
                         Save
@@ -133,7 +134,7 @@ const UserSidebar: FC = () => {
             default:
                 return null;
         }
-    }, [mode, classes, handleEdit, handleCreate]);
+    }, [mode, classes, handleEdit, handleCreateUser, handleSaveUser]);
 
     const renderFooter = useMemo(() => {
         return (
@@ -169,31 +170,30 @@ const UserSidebar: FC = () => {
             title={title}
             footer={renderFooter}
         >
-            <Form
-                fields={fields}
-                onFieldsChange={onFieldsChange as any}
-            >
-                <Form.Item
-                    label="Login"
-                    name="login"
-                >
-                    <Input disabled={disabled} />
-                </Form.Item>
-                <Form.Item
-                    label="Password"
-                    name="password"
-                >
-                    <Input disabled={disabled} />
-                </Form.Item>
-                {mode && SHOW_ID_MODES.includes(mode) && (
-                    <Form.Item
-                        label="ID"
-                        name="id"
-                    >
-                        <Input disabled={disabled} />
-                    </Form.Item>
+            <form>
+                <div>
+                    <label>Логин:</label>
+                    <Input
+                        name="login"
+                        className={classes.input}
+                        disabled={disabled}
+                        value={form.login}
+                        onChange={onChange}
+                    />
+                </div>
+                {mode && SHOW_PASSWORD_MODES.includes(mode) && (
+                    <div>
+                        <label>Пароль:</label>
+                        <Input
+                            name="password"
+                            className={classes.input}
+                            disabled={disabled}
+                            value={form.password}
+                            onChange={onChange}
+                        />
+                    </div>
                 )}
-            </Form>
+            </form>
         </Drawer>
     );
 };

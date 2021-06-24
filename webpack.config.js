@@ -33,6 +33,11 @@ module.exports = {
                 pathRewrite: { '^/api': '' },
                 secure: false,
             },
+            '/api/auth': {
+                target: 'http://vigdorov.ru:3013',
+                pathRewrite: { '^/api': '' },
+                secure: false,
+            },
             '/api/bot': {
                 target: 'http://vigdorov.ru:3012',
                 pathRewrite: { '^/api/bot': '' },

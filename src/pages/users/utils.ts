@@ -1,8 +1,9 @@
-import {QueryParsers} from '../../core/utils/getQueryFromUrl';
+import {EntityMode} from '../../core/types/EntityModes';
 import {stringParser} from '../../core/utils/queryParsers';
-import {QueryParams} from './types';
+import {ModalType} from './enums';
 
-export const queryParsers: QueryParsers<QueryParams> = {
+export const queryParsers = {
     id: stringParser(),
-    mode: stringParser(),
+    mode: stringParser<EntityMode>(),
+    modalType: stringParser<ModalType>(),
 };

@@ -1,4 +1,5 @@
 import {EntityMode} from '../../core/types/EntityModes';
+import {ModalType} from './enums';
 
 export type User = {
     id: string;
@@ -9,4 +10,5 @@ export type User = {
 export type QueryParams = {
     id?: string;
     mode?: EntityMode;
+    modalType?: ModalType;
 };
