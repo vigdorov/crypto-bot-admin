@@ -60,8 +60,8 @@ export class CrudAPI<T> {
         return http.get<never, ResponseEntities<T>>([this.endpoint, query.join('&')].filter(isNotEmpty).join('?'));
     }
 
-    find = (id: string): Promise<T> => {
-        return http.get<never, T>(`${this.endpoint}/${id}`);
+    find = (id: string): Promise<EntityWithId<T>> => {
+        return http.get<never, EntityWithId<T>>(`${this.endpoint}/${id}`);
     }
 
     create = (entity: EntityWithoutId<T>): Promise<EntityWithId<T>> => {

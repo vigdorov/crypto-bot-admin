@@ -1,7 +1,7 @@
-import {EntityWithoutId} from '../../../core/api/CrudAPI';
-import {ROUTES} from '../../../core/consts/common';
-import {bindedActions, INIT_USER} from '../../../core/infrastructure/atom/usersAtom';
-import {routerService} from '../../../core/services/RouterService';
+import {EntityWithoutId} from '_api/CrudAPI';
+import {ROUTES} from '_consts/common';
+import {bindedActions, INIT_USER} from '_infrastructure/atom/usersAtom';
+import {routerService} from '_services/RouterService';
 import {usersAPI} from '../api/UsersAPI';
 import {User} from '../types';
 

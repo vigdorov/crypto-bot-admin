@@ -2,14 +2,6 @@ import {declareAction, declareAtom} from '@reatom/core';
 import {User} from '../../../pages/users/types';
 import {store} from './store';
 
-export type FieldData = {
-    name: keyof User | Array<keyof User>;
-    value?: any;
-    touched?: boolean;
-    validating?: boolean;
-    errors?: string[];
-};
-
 const INIT_USERS: User[] = [];
 export const INIT_USER: User = {
     id: '',

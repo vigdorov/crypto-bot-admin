@@ -1,6 +1,6 @@
 import {ENDPOINT} from '_consts/common';
-import {CrudAPI, EntityWithId, EntityWithoutId} from '../../../core/api/CrudAPI';
-import {http} from '../../../core/infrastructure/Http';
+import {CrudAPI, EntityWithId, EntityWithoutId} from '_api/CrudAPI';
+import {http} from '_infrastructure/Http';
 import {User} from '../types';
 import {ChangePasswordRequest} from './types';
 

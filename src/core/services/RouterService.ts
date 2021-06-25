@@ -1,6 +1,7 @@
 import {decode, encode, ParsedUrlQuery} from 'querystring';
 import {bindedActions} from '../infrastructure/atom/routerAtom';
 import {isNotEmpty} from '../referers/common';
+import {objectEntries} from '../utils/objectEntries';
 
 type PushQueryOptions = {
     reset?: boolean;
@@ -14,7 +15,7 @@ class RouterService {
         bindedActions.routerAction(route);
     }
 
-    pushWithQuery(path: string, query: ParsedUrlQuery, options?: PushQueryOptions) {
+    pushWithQuery(path: string, query: Indexed<Undefinable<string | string[]>>, options?: PushQueryOptions) {
         const currentQuery = getQuery();
 
         const finalQuery = encode({
@@ -24,7 +25,12 @@ class RouterService {
             ...(options?.shouldRefresh ? {
                 __timestamp: Date.now(),
             } : {}),
-            ...query,
+            ...objectEntries(query).reduce<ParsedUrlQuery>((acc, [key, value]) => {
+                if (value) {
+                    acc[key] = value;
+                }
+                return acc;
+            }, {}),
         });
 
         this.push([path, finalQuery].filter(isNotEmpty).join('?'));

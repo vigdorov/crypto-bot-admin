@@ -2,11 +2,11 @@ import {useAtom} from '@reatom/react';
 import {Button, Drawer, Input} from 'antd';
 import React, {FC, Fragment, memo, SyntheticEvent, useCallback, useEffect, useMemo} from 'react';
 import {createUseStyles} from 'react-jss';
-import {ROUTES} from '../../../../core/consts/common';
-import {useQuery} from '../../../../core/hooks/useQuery';
-import {bindedActions, userFormAtom} from '../../../../core/infrastructure/atom/usersAtom';
-import {routerService} from '../../../../core/services/RouterService';
-import {EntityMode} from '../../../../core/types/EntityModes';
+import {ROUTES} from '_consts/common';
+import {useQuery} from '_hooks/useQuery';
+import {bindedActions, userFormAtom} from '_infrastructure/atom/usersAtom';
+import {routerService} from '_services/RouterService';
+import {EntityMode} from '_types/EntityModes';
 import {usersService} from '../../services/UsersServices';
 import {queryParsers} from '../../utils';
 

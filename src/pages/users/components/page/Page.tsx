@@ -1,9 +1,9 @@
 import {Button, Layout} from 'antd';
 import React, {FC, Fragment, memo} from 'react';
 import {createUseStyles} from 'react-jss';
-import {ROUTES} from '../../../../core/consts/common';
-import {routerService} from '../../../../core/services/RouterService';
-import {EntityMode} from '../../../../core/types/EntityModes';
+import {ROUTES} from '_consts/common';
+import {routerService} from '_services/RouterService';
+import {EntityMode} from '_types/EntityModes';
 import ChangePasswordModal from '../change-password-modal/ChangePasswordModal';
 import UserSidebar from '../user-sidebar/UserSidebar';
 import UsersTable from '../users-table/UsersTable';

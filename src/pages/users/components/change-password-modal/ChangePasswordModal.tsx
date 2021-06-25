@@ -1,8 +1,8 @@
 import {Input, Modal} from 'antd';
 import React, {FC, memo, useCallback, useState} from 'react';
-import {ROUTES} from '../../../../core/consts/common';
-import {useQuery} from '../../../../core/hooks/useQuery';
-import {routerService} from '../../../../core/services/RouterService';
+import {ROUTES} from '_consts/common';
+import {useQuery} from '_hooks/useQuery';
+import {routerService} from '_services/RouterService';
 import {LABELS} from '../../consts';
 import {ModalType} from '../../enums';
 import {usersService} from '../../services/UsersServices';
