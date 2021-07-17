@@ -1,9 +1,8 @@
 import {declareAction, declareAtom} from '@reatom/core';
-import {EntityWithId} from '../../api/CrudAPI';
 import {store} from './store';
 
 export const createEntityAtoms = <T>(initEntity: T) => {
-    const INIT_ENTITY_LIST: EntityWithId<T>[] = [];
+    const INIT_ENTITY_LIST: T[] = [];
 
     const loadEntityList = declareAction<typeof INIT_ENTITY_LIST>();
     const loadEntityForm = declareAction<T>();

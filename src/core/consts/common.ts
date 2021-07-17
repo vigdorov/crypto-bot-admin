@@ -7,11 +7,13 @@ export const ROUTES = {
     CURRENCIES: '/currencies',
 };
 
+const PROTOCOL = location.protocol;
+
 export const ENDPOINT = {
-    AUTH: 'https://localhost:3189/api/auth',
-    USERS: 'https://localhost:3189/api/users',
-    ACTIONS: 'https://localhost:3189/api/bot/actions',
-    CONDITIONS: 'https://localhost:3189/api/bot/conditions',
-    GRAPHS: 'https://localhost:3189/api/bot/graphs',
-    CURRENCIES: 'https://localhost:3189/api/bot/currencies',
+    AUTH: `${PROTOCOL}//localhost:3189/api/auth`,
+    USERS: `${PROTOCOL}//localhost:3189/api/users`,
+    ACTIONS: `${PROTOCOL}//localhost:3189/api/bot/actions`,
+    CONDITIONS: `${PROTOCOL}//localhost:3189/api/bot/conditions`,
+    GRAPHS: `${PROTOCOL}//localhost:3189/api/bot/graphs`,
+    CURRENCIES: `${PROTOCOL}//localhost:3189/api/bot/currencies`,
 };

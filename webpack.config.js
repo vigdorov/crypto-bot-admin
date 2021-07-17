@@ -26,7 +26,6 @@ module.exports = {
         compress: true,
         open: true,
         port: 3189,
-        http2: true,
         proxy: {
             '/api/users': {
                 target: 'http://vigdorov.ru:3011',

@@ -7,15 +7,15 @@ import {CrudService} from '../../services/CrudService';
 import {EntityMode} from '../../types/EntityModes';
 import {EntityWithId} from '../../api/CrudAPI';
 
-type Props<T> = {
+type Options<T> = {
     entityListAtom: Atom<T[]>;
     service: CrudService<T>;
 };
 
-export const createEntityTable = function <T extends EntityWithId<unknown>> ({
+export const createEntityTable = function <T> ({
     entityListAtom,
     service,
-}: Props<T>): FC {
+}: Options<T>): FC {
     return memo(() => {
         const entityList = useAtom(entityListAtom);
 
@@ -44,7 +44,7 @@ export const createEntityTable = function <T extends EntityWithId<unknown>> ({
         }, [entityList]);
 
         const dataSource = useMemo(() => {
-            return entityList.map(entity => {
+            return entityList.map((entity: any) => {
                 return {
                     ...entity,
                     key: entity.id,

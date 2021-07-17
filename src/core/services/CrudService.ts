@@ -20,6 +20,10 @@ export class CrudService<T> {
         this.route = route;
     }
 
+    loadEntityForm(form: T) {
+        this.actions.loadEntityForm(form);
+    }
+
     loadEntityList() {
         return this.api
             .request()
