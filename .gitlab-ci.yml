@@ -10,5 +10,6 @@ deploy:
     - git fetch && git pull
     - npm i
     - npm run build
+    - cp -R build/ ../admin-front-server/static/
   only:
     - master
