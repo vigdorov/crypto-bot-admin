@@ -14,7 +14,8 @@
         "test": "jest",
         "prune": "node scripts/find-unused-code",
         "checks": "npm run eslint && npm run tsc && npm run prune && npm run test && npm run build",
-        "clean": "rm -rf node_modules && rm -rf build"
+        "clean": "rm -rf node_modules && rm -rf build",
+        "copy-front": "rm -rf ../crypto-bot-admin-server/static && cp -R build/ ../crypto-bot-admin-server/static"
     },
     "repository": {
         "type": "git",
