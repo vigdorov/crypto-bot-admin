@@ -1,6 +1,6 @@
-import React, {memo} from 'react';
+import React, {FC, Fragment, memo, useEffect} from 'react';
 import {Route, Switch} from 'react-router-dom';
-import {context} from '@reatom/react';
+import {context, useAtom} from '@reatom/react';
 import mainPageRouter from '_pages/main/routing';
 import usersPageRouter from '_pages/users/routing';
 import actionsPageRouter from '_pages/actions/routing';
@@ -13,6 +13,9 @@ import jss from 'jss';
 import preset from 'jss-preset-default';
 import {store} from '../../../core/infrastructure/atom/store';
 import ConnectedRouter from '../../../core/blocks/connected-router/ConnectedRouter';
+import {authAtom} from '../../../core/infrastructure/atom/authAtom';
+import LoginLayout from '../login-layout';
+import authServiceApi from '../../../core/infrastructure/AuthServiceAPI';
 
 jss.setup(preset());
 
@@ -33,10 +36,11 @@ const styles = {
 
 jss.createStyleSheet(styles).attach();
 
-const Page: React.FC = () => {
+const SecurityRoutes: FC = memo(() => {
+    const isAuth = useAtom(authAtom);
     return (
-        <context.Provider value={store}>
-            <ConnectedRouter>
+        <Fragment>
+            {isAuth && (
                 <MainLayout>
                     <Switch>
                         {mainPageRouter}
@@ -50,6 +54,23 @@ const Page: React.FC = () => {
                         </Route>
                     </Switch>
                 </MainLayout>
+            )}
+            {!isAuth && (
+                <LoginLayout />
+            )}
+        </Fragment>
+    );
+});
+
+const Page: FC = () => {
+    useEffect(() => {
+        authServiceApi.refresh();
+    });
+
+    return (
+        <context.Provider value={store}>
+            <ConnectedRouter>
+                <SecurityRoutes />
             </ConnectedRouter>
         </context.Provider>
     );

@@ -1,4 +1,5 @@
-import axios, {AxiosRequestConfig} from 'axios';
+import {AxiosRequestConfig} from 'axios';
+import httpAuthApi from './HttpAuthAPI';
 
 enum Method {
     Get = 'get',
@@ -16,7 +17,7 @@ type RequestConfig<Q, B> = Omit<AxiosRequestConfig, 'params' | 'data'> & {
 };
 
 const requestMiddleware = async <Q, B, R>(config: RequestConfig<Q, B>): Promise<R> => {
-    const axiosResponse = await axios.request<R>(config);
+    const axiosResponse = await httpAuthApi.request<R>(config);
     // Добавить обработку ошибок
     return axiosResponse.data;
 };

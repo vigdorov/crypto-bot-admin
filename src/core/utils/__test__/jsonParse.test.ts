@@ -16,7 +16,7 @@ describe('jsonParse', () => {
     });
 
     it('Должен вернуть undefined для не корректных значений', () => {
-        expect(jsonParse()).toBeUndefined();
+        expect(jsonParse(undefined)).toBeUndefined();
         expect(jsonParse('')).toBeUndefined();
         expect(jsonParse('    ')).toBeUndefined();
         expect(jsonParse('{"9')).toBeUndefined();
