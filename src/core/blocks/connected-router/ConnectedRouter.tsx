@@ -20,3 +20,12 @@ const ConnectedRouter: FC<PropsWithChildren<unknown>> = ({children}) => {
 };
 
 export default memo(ConnectedRouter);
+
+
+class Service {
+    constructor() {
+
+    }
+
+    
+}
